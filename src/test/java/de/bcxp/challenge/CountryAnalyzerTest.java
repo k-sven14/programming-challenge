@@ -8,8 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class CountryAnalyzerTest {
@@ -81,16 +80,15 @@ public class CountryAnalyzerTest {
     }
 
     @Test
-    void testNegativeValues() {
-        List<Country> countries = List.of(
-                new Country("BadCountry", -1000, 100),  // -10
-                new Country("NormalCountry", 1000, 50)  // 20
-        );
+    void testConstructorRejectsNegativeValues() {
+        assertThrows(IllegalArgumentException.class,
+                () -> new Country("BadCountry", -1000, 100));
 
-        Optional<Country> result = analyzer.analyze(countries);
+        assertThrows(IllegalArgumentException.class,
+                () -> new Country("BadCountry2", 1000, -50));
 
-        assertTrue(result.isPresent());
-        assertEquals("NormalCountry", result.get().getName());
+        assertThrows(IllegalArgumentException.class,
+                () -> new Country("BadCountry3", -10, -10));
     }
 
     @Test

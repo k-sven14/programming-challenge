@@ -20,9 +20,12 @@ public class Country {
      * @param area        land area in square kilometers (must be >= 0)
      */
     public Country(String name, double population, double area) {
+        if (population < 0 || area < 0) {
+            throw new IllegalArgumentException("Population and area must be non-negative.");
+        }
         this.name = name;
-        this.population = Math.max(0, population);
-        this.area = Math.max(0, area);
+        this.population = population;
+        this.area = area;
     }
 
     public double getPopulation() {
